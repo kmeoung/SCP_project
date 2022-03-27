@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scp/src/common/colors.dart';
+import 'package:scp/src/common/routes.dart';
 import 'package:scp/src/controller/screen_layout_controller.dart';
 import 'package:scp/src/pages/home/add_or_edit_project.dart';
+import 'package:scp/src/pages/home/add_or_edit_task.dart';
 
 import 'package:scp/src/pages/home/home_page.dart';
 import 'package:scp/src/pages/home/all_project_page.dart';
@@ -36,44 +38,43 @@ class Scp extends StatelessWidget {
       initialBinding: BindingsBuilder(() {
         Get.put(ScreenLayoutController()); // 화면 사이즈 Rx Controller
       }),
-      initialRoute: '/',
       getPages: [
         // 페이지 Routing
         defaultPage(
-          name: '/',
+          name: AllRoutes.HOME,
           page: HomePage(),
         ),
         defaultPage(
-          name: '/team',
+          name: AllRoutes.TEAM,
           page: TeamPage(),
         ),
         defaultPage(
-          name: '/project/:pid/all',
+          name: AllRoutes.PROJECT_ALL,
           page: AllProjectPage(),
         ),
         defaultPage(
-          name: '/project/:pid/my',
+          name: AllRoutes.PROJECT_MY,
           page: MyProjectPage(),
         ),
         defaultPage(
-          name: '/project/:pid/task/:tid',
+          name: AllRoutes.PROJECT_ADD,
+          page: AddOrEditProject(),
+        ),
+        defaultPage(
+          name: AllRoutes.PROJECT_EDIT,
+          page: AddOrEditProject(),
+        ),
+        defaultPage(
+          name: AllRoutes.TASK,
           page: TaskPage(),
         ),
         defaultPage(
-          name: '/project/:pid/edit',
-          page: AddOrEditProject(),
+          name: AllRoutes.TASK_ADD,
+          page: AddOrEditTask(),
         ),
         defaultPage(
-          name: '/project/add',
-          page: AddOrEditProject(),
-        ),
-        defaultPage(
-          name: '/project/:pid/task/:tid/edit',
-          page: AddOrEditProject(),
-        ),
-        defaultPage(
-          name: '/project/:pid/task/add',
-          page: AddOrEditProject(),
+          name: AllRoutes.TASK_EDIT,
+          page: AddOrEditTask(),
         ),
       ],
     );

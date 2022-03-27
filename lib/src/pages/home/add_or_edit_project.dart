@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scp/src/common/colors.dart';
+import 'package:scp/src/common/routes.dart';
 import 'package:scp/src/components/content_title.dart';
 import 'package:scp/src/controller/screen_layout_controller.dart';
 import 'package:scp/src/pages/template/contents_template.dart';
@@ -13,7 +14,7 @@ class AddOrEditProject extends ContentTemplate {
   bool isEdit = false;
   @override
   List<Widget> customDetail() {
-    isEdit = Get.parameters['pid'] != null;
+    isEdit = Get.parameters[AllRoutes.PID] != null;
 
     return [
       ContentTitle(

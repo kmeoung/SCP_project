@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scp/src/common/colors.dart';
+import 'package:scp/src/common/routes.dart';
 import 'package:scp/src/components/content_title.dart';
 import 'package:scp/src/pages/template/contents_template.dart';
 
@@ -14,11 +15,15 @@ class TaskPage extends ContentTemplate {
   List<Widget> customDetail() {
     return [
       ContentTitle(
-        title: 'Project Name ${Get.parameters['pid']}',
+        title: 'Project Name ${Get.parameters[AllRoutes.PID]}',
         onTapMore: () {
-          if (Get.parameters['tid'] != null) {
+          if (Get.parameters[AllRoutes.TID] != null) {
             Get.toNamed(
-              '/project/${Get.parameters['pid']!}/task/${Get.parameters['tid']!}',
+              AllRoutes.TASK_EDIT
+                  .replaceAll(
+                      AllRoutes.ARGS_PID, Get.parameters[AllRoutes.PID]!)
+                  .replaceAll(
+                      AllRoutes.ARGS_TID, Get.parameters[AllRoutes.TID]!),
             );
           }
         },

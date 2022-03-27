@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scp/src/common/colors.dart';
+import 'package:scp/src/common/routes.dart';
 import 'package:scp/src/controller/screen_layout_controller.dart';
 
 /// Desktop -> 오른쪽 메뉴
@@ -80,10 +81,10 @@ class RightMenu extends StatelessWidget {
                 height: 20,
               ),
               _sideMenu('Home', onPressed: () {
-                Get.offNamed('/');
+                Get.offNamed(AllRoutes.HOME);
               }),
               _sideMenu('Team', onPressed: () {
-                Get.toNamed('/team');
+                Get.toNamed(AllRoutes.TEAM);
               }),
               _sideMenu('Chat', onPressed: () {}),
               const SizedBox(
@@ -102,7 +103,8 @@ class RightMenu extends StatelessWidget {
               ...List.generate(
                 10,
                 (index) => _sideMenu('project $index', onPressed: () {
-                  Get.toNamed('/project/$index/all');
+                  Get.toNamed(AllRoutes.PROJECT_ALL
+                      .replaceAll(AllRoutes.ARGS_PID, '$index'));
                 }),
               ),
             ],

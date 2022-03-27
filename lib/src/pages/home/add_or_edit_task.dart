@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scp/src/common/colors.dart';
+import 'package:scp/src/common/routes.dart';
 import 'package:scp/src/components/content_title.dart';
 import 'package:scp/src/controller/screen_layout_controller.dart';
 import 'package:scp/src/pages/template/contents_template.dart';
@@ -13,7 +12,7 @@ class AddOrEditTask extends ContentTemplate {
   bool isEdit = false;
   @override
   List<Widget> customDetail() {
-    isEdit = Get.parameters['tid'] != null;
+    isEdit = Get.parameters[AllRoutes.TID] != null;
 
     return [
       ContentTitle(
@@ -23,48 +22,55 @@ class AddOrEditTask extends ContentTemplate {
       const SizedBox(
         height: 20,
       ),
-      _header('Add Team'),
-      const SizedBox(
-        height: 20,
-      ),
-      _header('Add Team Member'),
-      const SizedBox(
-        height: 40,
-      ),
-      _member(),
-      const SizedBox(
-        height: 10,
-      ),
-      _member(),
-      const SizedBox(
-        height: 10,
-      ),
       _member(),
     ];
   }
 
   Widget _header(String title, {double minHeight = 0}) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      elevation: 5.0,
-      color: Colors.white,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(minHeight: minHeight),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: TextField(
-            textInputAction: TextInputAction.next,
-            maxLines: null,
-            decoration: InputDecoration(
-              hintText: title,
-              hintStyle: TextStyle(color: CustomColors.black.withOpacity(0.5)),
-              label: null,
-              focusedBorder: InputBorder.none,
-              enabledBorder: InputBorder.none,
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Card(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            elevation: 5.0,
+            color: Colors.white,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: minHeight),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: TextField(
+                  textInputAction: TextInputAction.next,
+                  maxLines: null,
+                  decoration: InputDecoration(
+                    hintText: title,
+                    hintStyle:
+                        TextStyle(color: CustomColors.black.withOpacity(0.5)),
+                    label: null,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                  ),
+                ),
+              ),
             ),
           ),
         ),
-      ),
+        Card(
+          color: CustomColors.red,
+          elevation: 5,
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+            child: Text(
+              'yyyy-MM-dd',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: CustomColors.beige,
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 

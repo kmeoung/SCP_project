@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scp/src/common/colors.dart';
+import 'package:scp/src/common/routes.dart';
 import 'package:scp/src/components/content_title.dart';
 import 'package:scp/src/pages/home/add_or_edit_project.dart';
 import 'package:scp/src/pages/template/contents_template.dart';
@@ -14,11 +15,12 @@ class AllProjectPage extends ContentTemplate {
   List<Widget> customDetail() {
     return [
       ContentTitle(
-        title: 'Project Name ${Get.parameters['pid']}',
+        title: 'Project Name ${Get.parameters[AllRoutes.PID]}',
         onTapMore: () {
-          if (Get.parameters['pid'] != null) {
+          if (Get.parameters[AllRoutes.PID] != null) {
             Get.toNamed(
-              '/project/${Get.parameters['pid']!}/edit',
+              AllRoutes.PROJECT_EDIT.replaceAll(
+                  AllRoutes.ARGS_PID, Get.parameters[AllRoutes.PID]!),
             );
           }
         },
@@ -37,7 +39,10 @@ class AllProjectPage extends ContentTemplate {
         Expanded(
           child: InkWell(
             onTap: () {
-              Get.toNamed('/project/${Get.parameters['pid']}/all');
+              Get.toNamed(
+                AllRoutes.PROJECT_ALL.replaceAll(
+                    AllRoutes.ARGS_PID, Get.parameters[AllRoutes.PID]!),
+              );
             },
             child: Container(
               height: 30,
@@ -66,7 +71,10 @@ class AllProjectPage extends ContentTemplate {
         Expanded(
           child: InkWell(
             onTap: () {
-              Get.toNamed('/project/${Get.parameters['pid']}/my');
+              Get.toNamed(
+                AllRoutes.PROJECT_MY.replaceAll(
+                    AllRoutes.ARGS_PID, Get.parameters[AllRoutes.PID]!),
+              );
             },
             child: Container(
               height: 30,
@@ -230,7 +238,11 @@ class AllProjectPage extends ContentTemplate {
   Widget _taskCard(int tid, {required String title, required Color color}) {
     return InkWell(
       onTap: () {
-        Get.toNamed('/project/${Get.parameters['pid']}/task/$tid');
+        Get.toNamed(
+          AllRoutes.TASK
+              .replaceAll(AllRoutes.ARGS_PID, Get.parameters[AllRoutes.PID]!)
+              .replaceAll(AllRoutes.ARGS_TID, '$tid'),
+        );
       },
       child: Card(
         elevation: 5.0,
@@ -263,9 +275,10 @@ class AllProjectPage extends ContentTemplate {
   FloatingActionButton? floatingActionButton() {
     return FloatingActionButton(
       onPressed: () {
-        if (Get.parameters['pid'] != null) {
+        if (Get.parameters[AllRoutes.PID] != null) {
           Get.toNamed(
-            '/project/${Get.parameters['pid']!}/task/add',
+            AllRoutes.PROJECT_ADD
+                .replaceAll(AllRoutes.ARGS_PID, Get.parameters[AllRoutes.PID]!),
           );
         }
       },

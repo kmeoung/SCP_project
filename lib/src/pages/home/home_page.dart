@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scp/src/common/colors.dart';
+import 'package:scp/src/common/routes.dart';
 import 'package:scp/src/components/content_title.dart';
 import 'package:scp/src/controller/screen_layout_controller.dart';
 import 'package:scp/src/pages/template/contents_template.dart';
@@ -47,7 +48,9 @@ class HomePage extends ContentTemplate {
   Widget _projectCard(String title, int pid) {
     return InkWell(
       onTap: () {
-        Get.toNamed('/project/$pid/all');
+        Get.toNamed(
+          AllRoutes.PROJECT_ALL.replaceAll(AllRoutes.ARGS_PID, '$pid'),
+        );
       },
       child: Card(
         shape:
@@ -86,7 +89,8 @@ class HomePage extends ContentTemplate {
                       iconSize: 30,
                       onPressed: () {
                         Get.toNamed(
-                          '/project/$pid/edit',
+                          AllRoutes.PROJECT_EDIT
+                              .replaceAll(AllRoutes.ARGS_PID, '$pid'),
                         );
                       },
                       padding: EdgeInsets.zero,
@@ -155,7 +159,11 @@ class HomePage extends ContentTemplate {
       {required String title, required Color color}) {
     return InkWell(
       onTap: () {
-        Get.toNamed('/project/$pid/task/$tid');
+        Get.toNamed(
+          AllRoutes.TASK
+              .replaceAll(AllRoutes.ARGS_PID, '$pid')
+              .replaceAll(AllRoutes.ARGS_TID, '$tid'),
+        );
       },
       child: Card(
         elevation: 5.0,
@@ -188,9 +196,7 @@ class HomePage extends ContentTemplate {
   FloatingActionButton? floatingActionButton() {
     return FloatingActionButton(
       onPressed: () {
-        Get.toNamed(
-          '/project/add',
-        );
+        Get.toNamed(AllRoutes.PROJECT_ADD);
       },
       child: Icon(
         Icons.add,
