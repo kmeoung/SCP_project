@@ -16,17 +16,25 @@ abstract class ContentTemplate extends GetView<ScreenLayoutController> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTemplate(
-      mainContents: Obx(
-        () {
-          switch (controller.type.value) {
-            case ScreenSizeType.MOBILE:
-              return _mobileLayout();
-            case ScreenSizeType.TABLET:
-            case ScreenSizeType.DESKTOP:
-              return _desktopLayout();
-          }
-        },
+    return WillPopScope(
+      onWillPop: () {
+        if (Navigator.of(context).canPop()) {
+          Get.back();
+        }
+        return Future.value(false);
+      },
+      child: DefaultTemplate(
+        mainContents: Obx(
+          () {
+            switch (controller.type.value) {
+              case ScreenSizeType.MOBILE:
+                return _mobileLayout();
+              case ScreenSizeType.TABLET:
+              case ScreenSizeType.DESKTOP:
+                return _desktopLayout();
+            }
+          },
+        ),
       ),
     );
   }

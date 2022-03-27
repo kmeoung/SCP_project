@@ -81,7 +81,7 @@ class RightMenu extends StatelessWidget {
                 height: 20,
               ),
               _sideMenu('Home', onPressed: () {
-                Get.offNamed(AllRoutes.HOME);
+                Get.toNamed(AllRoutes.HOME);
               }),
               _sideMenu('Team', onPressed: () {
                 Get.toNamed(AllRoutes.TEAM);
