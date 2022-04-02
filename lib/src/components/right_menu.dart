@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scp/src/common/colors.dart';
 import 'package:scp/src/common/routes.dart';
+import 'package:scp/src/components/profile_dialog.dart';
 import 'package:scp/src/controller/screen_layout_controller.dart';
 
 /// Desktop -> 오른쪽 메뉴
@@ -21,14 +22,14 @@ class RightMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (screenSizeType) {
       case ScreenSizeType.MOBILE:
-        return _mobileLayout();
+        return _mobileLayout(context);
       case ScreenSizeType.TABLET:
       case ScreenSizeType.DESKTOP:
-        return _desktopLayout();
+        return _desktopLayout(context);
     }
   }
 
-  Widget _sizeMenuDetail() {
+  Widget _sizeMenuDetail(BuildContext context, bool isDesktop) {
     return Container(
       height: double.infinity,
       color: CustomColors.black,
@@ -44,33 +45,49 @@ class RightMenu extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundColor: CustomColors.beige,
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0),
-                      child: Text(
-                        'User Name',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: CustomColors.beige),
+              InkWell(
+                onTap: () {
+                  if (screenSizeType == ScreenSizeType.MOBILE) Get.back();
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return ProfileDialog(
+                        width: Get.width * 0.5,
+                        height: Get.height * 0.5,
+                        isDesktop: isDesktop,
+                      );
+                    },
+                  );
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: const [
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor: CustomColors.beige,
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: Text(
+                          'User Name',
+                          maxLines: 2,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: CustomColors.beige),
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              Divider(
+              const Divider(
                 color: CustomColors.beige,
                 thickness: 1,
                 height: 40,
               ),
-              Text(
+              const Text(
                 'BigMenu',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -86,11 +103,24 @@ class RightMenu extends StatelessWidget {
               _sideMenu('Team', onPressed: () {
                 Get.toNamed(AllRoutes.TEAM);
               }),
-              _sideMenu('Chat', onPressed: () {}),
+              _sideMenu('Chat', onPressed: () {
+                Get.dialog(
+                  AlertDialog(
+                    title: const Text('Not ready yet'),
+                    content: const Text('comming soon...'),
+                    actions: [
+                      TextButton(
+                        child: const Text("Close"),
+                        onPressed: () => Get.back(),
+                      ),
+                    ],
+                  ),
+                );
+              }),
               const SizedBox(
                 height: 30,
               ),
-              Text(
+              const Text(
                 'Projects',
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -114,15 +144,15 @@ class RightMenu extends StatelessWidget {
     );
   }
 
-  Widget _mobileLayout() {
-    return _sizeMenuDetail();
+  Widget _mobileLayout(BuildContext context) {
+    return _sizeMenuDetail(context, false);
   }
 
-  Widget _desktopLayout() {
+  Widget _desktopLayout(BuildContext context) {
     return Scrollbar(
         isAlwaysShown: true,
         controller: _scrollController,
-        child: _sizeMenuDetail());
+        child: _sizeMenuDetail(context, true));
   }
 
   /// 사이드 메뉴

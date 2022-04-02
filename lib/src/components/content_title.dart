@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:scp/src/common/colors.dart';
 import 'dart:ui' as ui;
 
+/// Project 기본 Title
 class ContentTitle extends StatelessWidget {
+  // Contents Title
   String title;
   VoidCallback? onTapMore;
   ContentTitle({
@@ -20,7 +22,8 @@ class ContentTitle extends StatelessWidget {
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
+              // 그라데이션 필요할 시 추가
               fontSize: 30,
               fontWeight: FontWeight.bold,
               color: CustomColors.black,
@@ -37,13 +40,15 @@ class ContentTitle extends StatelessWidget {
             textAlign: TextAlign.left,
           ),
           Visibility(
+            // 더보기 필요할 때에만 추가
             visible: onTapMore != null,
             child: IconButton(
               splashRadius: 20,
               iconSize: 40,
               onPressed: onTapMore,
               padding: EdgeInsets.zero,
-              icon: Icon(
+              icon: const Icon(
+                // 더보기 아이콘
                 Icons.more_horiz,
                 color: CustomColors.black,
               ),
@@ -54,7 +59,8 @@ class ContentTitle extends StatelessWidget {
       const SizedBox(
         height: 5,
       ),
-      Divider(
+      const Divider(
+        // Title Divider
         color: CustomColors.red,
         thickness: 2,
         height: 5,

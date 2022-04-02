@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:scp/src/common/colors.dart';
 import 'package:scp/src/controller/screen_layout_controller.dart';
 
+/// Mobile Layout 시 상단에 뜨는 Navigation Menu
 class NavigationMenu extends StatelessWidget {
   /// 화면 타입
   ScreenSizeType screenSizeType;
@@ -34,7 +35,7 @@ class NavigationMenu extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(
+          const Expanded(
             child: Text(
               'SCP',
               style: TextStyle(fontSize: 45, color: CustomColors.beige),
@@ -45,7 +46,7 @@ class NavigationMenu extends StatelessWidget {
               // Drawer 열기
               _key?.currentState?.openEndDrawer();
             },
-            child: SizedBox(
+            child: const SizedBox(
               width: 80,
               height: 80,
               child: Icon(
@@ -60,6 +61,7 @@ class NavigationMenu extends StatelessWidget {
   }
 
   /// Navigation Desktop Layout
+  /// Desktop에서는 메뉴 버튼이 필요 없음
   Widget _desktopLayout() {
     return Container();
   }

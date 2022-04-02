@@ -3,8 +3,11 @@ import 'package:get/get.dart';
 import 'package:scp/src/common/colors.dart';
 import 'package:scp/src/components/content_title.dart';
 
+/// 팀원 추가 Dialog
 class AddTeamMemberDialog extends StatelessWidget {
+  // 가로 사이즈
   double width;
+  // 세로 사이즈
   double height;
   AddTeamMemberDialog({Key? key, required this.width, required this.height})
       : super(key: key);
@@ -14,6 +17,7 @@ class AddTeamMemberDialog extends StatelessWidget {
     return _customDialog(context);
   }
 
+  // Dialog Contents
   Widget _customDialogContents(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
@@ -53,7 +57,7 @@ class AddTeamMemberDialog extends StatelessWidget {
                   onTap: () {
                     Get.back();
                   },
-                  leading: CircleAvatar(
+                  leading: const CircleAvatar(
                     backgroundColor: CustomColors.black,
                     foregroundColor: Colors.transparent,
                   ),
@@ -71,6 +75,7 @@ class AddTeamMemberDialog extends StatelessWidget {
     );
   }
 
+  // Dialog 전체
   Widget _customDialog(BuildContext context) {
     return Dialog(
       backgroundColor: Colors.transparent,

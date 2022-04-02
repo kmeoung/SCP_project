@@ -14,6 +14,7 @@ import 'package:scp/src/pages/home/team_page.dart';
 
 void main() => runApp(const Scp());
 
+/// SCP Project
 class Scp extends StatelessWidget {
   const Scp({Key? key}) : super(key: key);
 
@@ -23,12 +24,12 @@ class Scp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: CustomColors.red,
         backgroundColor: CustomColors.beige,
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           color: CustomColors.black,
           centerTitle: false,
           foregroundColor: CustomColors.beige,
         ),
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           bodyText1: TextStyle(color: CustomColors.black),
           bodyText2: TextStyle(color: CustomColors.black),
           headline1: TextStyle(color: CustomColors.black),
@@ -41,71 +42,68 @@ class Scp extends StatelessWidget {
       getPages: [
         // 페이지 Routing
         defaultPage(
-          name: AllRoutes.HOME,
+          name: AllRoutes.HOME, // Home
           page: HomePage(),
         ),
         defaultPage(
-          name: AllRoutes.TEAM,
+          name: AllRoutes.TEAM, // Team
           page: TeamPage(),
         ),
         defaultPage(
-          name: AllRoutes.TEAM_ADD,
+          name: AllRoutes.TEAM_ADD, // Team Add
           page: AddOrEditTeam(),
         ),
         defaultPage(
-          name: AllRoutes.TEAM_DETAIL,
+          name: AllRoutes.TEAM_DETAIL, // Team Detail
           page: TeamPage(),
         ),
         defaultPage(
-          name: AllRoutes.TEAM_EDIT,
+          name: AllRoutes.TEAM_EDIT, // Team Edit
           page: AddOrEditTeam(),
         ),
+
         defaultPage(
-          name: AllRoutes.TASK_EDIT,
-          page: AddOrEditTask(),
-        ),
-        defaultPage(
-          name: AllRoutes.PROJECT_ALL,
+          name: AllRoutes.PROJECT_ALL, // Project 전체
           page: ProjectPage(
             pageType: PROJECT_PAGE_TYPE.ALL,
           ),
         ),
         defaultPage(
-          name: AllRoutes.PROJECT_MY,
+          name: AllRoutes.PROJECT_MY, // Project 내껏만
           page: ProjectPage(
             pageType: PROJECT_PAGE_TYPE.MY,
           ),
         ),
         defaultPage(
-          name: AllRoutes.PROJECT_SENDTASK,
+          name: AllRoutes.PROJECT_SENDTASK, // Project 보낸 할 일
           page: ProjectPage(
             pageType: PROJECT_PAGE_TYPE.SEND,
           ),
         ),
         defaultPage(
-          name: AllRoutes.PROJECT_RECEIVETASK,
+          name: AllRoutes.PROJECT_RECEIVETASK, // Project 받은 할 일
           page: ProjectPage(
             pageType: PROJECT_PAGE_TYPE.RECEIVE,
           ),
         ),
         defaultPage(
-          name: AllRoutes.PROJECT_ADD,
+          name: AllRoutes.PROJECT_ADD, // Project 추가
           page: AddOrEditProject(),
         ),
         defaultPage(
-          name: AllRoutes.PROJECT_EDIT,
+          name: AllRoutes.PROJECT_EDIT, // Project 수정
           page: AddOrEditProject(),
         ),
         defaultPage(
-          name: AllRoutes.TASK,
+          name: AllRoutes.TASK, // 할 일
           page: TaskPage(),
         ),
         defaultPage(
-          name: AllRoutes.TASK_ADD,
+          name: AllRoutes.TASK_EDIT, // Task 수정
           page: AddOrEditTask(),
         ),
         defaultPage(
-          name: AllRoutes.TASK_EDIT,
+          name: AllRoutes.TASK_ADD, // Task 추가
           page: AddOrEditTask(),
         ),
       ],

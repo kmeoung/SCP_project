@@ -2,19 +2,19 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:scp/http/scp_http_client.dart';
 import 'package:scp/src/common/colors.dart';
 import 'package:scp/src/common/routes.dart';
 import 'package:scp/src/components/content_title.dart';
 import 'package:scp/src/controller/screen_layout_controller.dart';
 import 'package:scp/src/pages/template/contents_template.dart';
-import 'dart:convert' as convert;
-import 'package:http/http.dart' as http;
 
 class HomePage extends ContentTemplate {
   HomePage({Key? key}) : super(key: key);
 
   @override
   List<Widget> customDetail(BuildContext context) {
+    ScpHttpClient.get('detailUrl');
     return [
       ContentTitle(title: 'My Project'),
       _homeItemView(tempCount: 6),
@@ -24,24 +24,6 @@ class HomePage extends ContentTemplate {
       ContentTitle(title: 'Shared Project'),
       _homeItemView(tempCount: 3),
     ];
-  }
-
-  /// 결제 Acount 테스트
-  Future<void> _accountTest() async {
-    String realName = '권태웅';
-    var url = Uri.https('openapi.openbanking.or.kr', 'v2.0/inquiry/$realName',
-        {'q': '{https}'});
-
-    // Await the http get response, then decode the json-formatted response.
-    var response = await http.post(url, body: {});
-    if (response.statusCode == 200) {
-      var jsonResponse =
-          convert.jsonDecode(response.body) as Map<String, dynamic>;
-      var itemCount = jsonResponse['totalItems'];
-      print('Number of books about http: $itemCount.');
-    } else {
-      print('Request failed with status: ${response.statusCode}.');
-    }
   }
 
   Widget _homeItemView({int tempCount = 2}) {
