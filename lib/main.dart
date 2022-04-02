@@ -5,10 +5,10 @@ import 'package:scp/src/common/routes.dart';
 import 'package:scp/src/controller/screen_layout_controller.dart';
 import 'package:scp/src/pages/home/add_or_edit_project.dart';
 import 'package:scp/src/pages/home/add_or_edit_task.dart';
+import 'package:scp/src/pages/home/add_or_edit_team.dart';
 
 import 'package:scp/src/pages/home/home_page.dart';
-import 'package:scp/src/pages/home/all_project_page.dart';
-import 'package:scp/src/pages/home/my_project_page.dart';
+import 'package:scp/src/pages/home/project_page.dart';
 import 'package:scp/src/pages/home/task_page.dart';
 import 'package:scp/src/pages/home/team_page.dart';
 
@@ -49,12 +49,44 @@ class Scp extends StatelessWidget {
           page: TeamPage(),
         ),
         defaultPage(
+          name: AllRoutes.TEAM_ADD,
+          page: AddOrEditTeam(),
+        ),
+        defaultPage(
+          name: AllRoutes.TEAM_DETAIL,
+          page: TeamPage(),
+        ),
+        defaultPage(
+          name: AllRoutes.TEAM_EDIT,
+          page: AddOrEditTeam(),
+        ),
+        defaultPage(
+          name: AllRoutes.TASK_EDIT,
+          page: AddOrEditTask(),
+        ),
+        defaultPage(
           name: AllRoutes.PROJECT_ALL,
-          page: AllProjectPage(),
+          page: ProjectPage(
+            pageType: PROJECT_PAGE_TYPE.ALL,
+          ),
         ),
         defaultPage(
           name: AllRoutes.PROJECT_MY,
-          page: MyProjectPage(),
+          page: ProjectPage(
+            pageType: PROJECT_PAGE_TYPE.MY,
+          ),
+        ),
+        defaultPage(
+          name: AllRoutes.PROJECT_SENDTASK,
+          page: ProjectPage(
+            pageType: PROJECT_PAGE_TYPE.SEND,
+          ),
+        ),
+        defaultPage(
+          name: AllRoutes.PROJECT_RECEIVETASK,
+          page: ProjectPage(
+            pageType: PROJECT_PAGE_TYPE.RECEIVE,
+          ),
         ),
         defaultPage(
           name: AllRoutes.PROJECT_ADD,

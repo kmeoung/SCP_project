@@ -1,23 +1,29 @@
 class AllRoutes {
-  static String PID = 'pid';
-  static String TID = 'tid';
+  static const String PID = 'pid';
+  static const String TID = 'tid';
+  static const String TEAMID = 'teamid';
 
-  static String ARGS_PID = ':' + PID;
-  static String ARGS_TID = ':' + TID;
+  static const String ARGS_PID = ':' + PID;
+  static const String ARGS_TID = ':' + TID;
+  static const String ARGS_TEAMID = ':' + TEAMID;
 
-  static String HOME = '/';
-  static String TEAM = HOME + 'team';
-  static String _project = HOME + 'project';
-  static String PROJECT_ADD = _project + '/add';
-  static String _projectDetail = _project + '/' + ARGS_PID;
-  static String PROJECT_ALL = _projectDetail + '/all';
-  static String PROJECT_MY = _projectDetail + '/my';
-  static String PROJECT_RECEIVETASK = _projectDetail + '/receiveTask';
-  static String PROJECT_SENDTASK = _projectDetail + '/sendTask';
-  static String PROJECT_EDIT = _projectDetail + '/edit';
+  static const String HOME = '/';
+  static const String TEAM = HOME + 'team';
+  static const String _team = TEAM + '/$ARGS_TEAMID';
+  static const String TEAM_DETAIL = _team;
+  static const String TEAM_EDIT = _team + '/edit';
+  static const String TEAM_ADD = TEAM + '/add';
+  static const String _project = HOME + 'project';
+  static const String PROJECT_ADD = _project + '/add';
+  static const String _projectDetail = _project + '/' + ARGS_PID;
+  static const String PROJECT_ALL = _projectDetail + '/all';
+  static const String PROJECT_MY = _projectDetail + '/my';
+  static const String PROJECT_RECEIVETASK = _projectDetail + '/receiveTask';
+  static const String PROJECT_SENDTASK = _projectDetail + '/sendTask';
+  static const String PROJECT_EDIT = _projectDetail + '/edit';
 
-  static String _task = _projectDetail + '/task';
-  static String TASK = _task + '/' + ARGS_TID;
-  static String TASK_ADD = _task + '/new/add';
-  static String TASK_EDIT = TASK + '/edit';
+  static const String _task = _projectDetail + '/task';
+  static const String TASK = _task + '/' + ARGS_TID;
+  static const String TASK_ADD = _task + '/new/add';
+  static const String TASK_EDIT = TASK + '/edit';
 }

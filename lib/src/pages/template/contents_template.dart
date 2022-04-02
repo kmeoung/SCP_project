@@ -12,7 +12,7 @@ abstract class ContentTemplate extends GetView<ScreenLayoutController> {
   FloatingActionButton? floatingActionButton();
 
   /// View Custom Detail
-  List<Widget> customDetail();
+  List<Widget> customDetail(BuildContext context);
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +28,10 @@ abstract class ContentTemplate extends GetView<ScreenLayoutController> {
           () {
             switch (controller.type.value) {
               case ScreenSizeType.MOBILE:
-                return _mobileLayout();
+                return _mobileLayout(context);
               case ScreenSizeType.TABLET:
               case ScreenSizeType.DESKTOP:
-                return _desktopLayout();
+                return _desktopLayout(context);
             }
           },
         ),
@@ -40,14 +40,14 @@ abstract class ContentTemplate extends GetView<ScreenLayoutController> {
   }
 
   /// Page Scaffold State
-  Widget _contentsDetail() {
+  Widget _contentsDetail(BuildContext context) {
     return SingleChildScrollView(
       controller: _scrollController,
       child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: customDetail()
+          children: customDetail(context)
             ..add(
               const SizedBox(
                 height: 80,
@@ -58,20 +58,20 @@ abstract class ContentTemplate extends GetView<ScreenLayoutController> {
     );
   }
 
-  Widget _mobileLayout() {
+  Widget _mobileLayout(BuildContext context) {
     return Scaffold(
-      body: _contentsDetail(),
+      body: _contentsDetail(context),
       floatingActionButton: floatingActionButton(),
     );
   }
 
-  Widget _desktopLayout() {
+  Widget _desktopLayout(BuildContext context) {
     return Scaffold(
       floatingActionButton: floatingActionButton(),
       body: Scrollbar(
         isAlwaysShown: true,
         controller: _scrollController,
-        child: _contentsDetail(),
+        child: _contentsDetail(context),
       ),
     );
   }

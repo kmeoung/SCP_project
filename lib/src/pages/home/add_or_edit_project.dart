@@ -1,10 +1,10 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scp/src/common/colors.dart';
 import 'package:scp/src/common/routes.dart';
+import 'package:scp/src/components/add_team_dialog.dart';
+import 'package:scp/src/components/add_team_member_dialog.dart';
 import 'package:scp/src/components/content_title.dart';
 import 'package:scp/src/controller/screen_layout_controller.dart';
 import 'package:scp/src/pages/template/contents_template.dart';
@@ -13,22 +13,22 @@ class AddOrEditProject extends ContentTemplate {
   AddOrEditProject({Key? key}) : super(key: key);
   bool isEdit = false;
   @override
-  List<Widget> customDetail() {
+  List<Widget> customDetail(BuildContext context) {
     isEdit = Get.parameters[AllRoutes.PID] != null;
 
     return [
       ContentTitle(
         title: '${isEdit ? 'Edit' : 'Add'} Project',
       ),
-      _header('Input title'),
+      _header('Input Project Title'),
       const SizedBox(
         height: 20,
       ),
-      _header('Add Team'),
+      _addTeam(context, 'Add Team'),
       const SizedBox(
         height: 20,
       ),
-      _header('Add Team Member'),
+      _addTeamMember(context, 'Add Team Member'),
       const SizedBox(
         height: 40,
       ),
@@ -66,7 +66,71 @@ class AddOrEditProject extends ContentTemplate {
     );
   }
 
+  Widget _addTeam(BuildContext context, String title) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      elevation: 5.0,
+      color: Colors.white,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10.0),
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AddTeamDialog(
+                width: Get.width * 0.7,
+                height: Get.height * 0.5,
+              );
+            },
+          );
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 17),
+          child: Text(
+            title,
+            style: TextStyle(
+              color: CustomColors.black.withOpacity(0.5),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _addTeamMember(BuildContext context, String title) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      elevation: 5.0,
+      color: Colors.white,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10.0),
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AddTeamMemberDialog(
+                width: Get.width * 0.7,
+                height: Get.height * 0.5,
+              );
+            },
+          );
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 17),
+          child: Text(
+            title,
+            style: TextStyle(
+              color: CustomColors.black.withOpacity(0.5),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _member() {
+    List<String> _permissions = ['생성자', '읽기/쓰기', '읽기만'];
+
     return Row(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -90,9 +154,19 @@ class AddOrEditProject extends ContentTemplate {
                   const SizedBox(
                     width: 10,
                   ),
-                  Text(
-                    'name',
-                    style: TextStyle(color: CustomColors.beige, fontSize: 12),
+                  Expanded(
+                    child: Text(
+                      'name',
+                      style: TextStyle(color: CustomColors.beige, fontSize: 12),
+                    ),
+                  ),
+                  IconButton(
+                    splashRadius: 20,
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.close,
+                      color: CustomColors.beige,
+                    ),
                   ),
                 ],
               ),
@@ -110,8 +184,28 @@ class AddOrEditProject extends ContentTemplate {
             elevation: 5.0,
             color: Colors.white,
             child: Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              width: double.infinity,
+              child: DropdownButton(
+                dropdownColor: CustomColors.beige,
+                borderRadius: BorderRadius.circular(10.0),
+                isExpanded: true,
+                value: _permissions[0],
+                elevation: 0,
+                style: TextStyle(color: CustomColors.black, fontSize: 12),
+                icon: Icon(
+                  Icons.arrow_drop_down_rounded,
+                  color: CustomColors.black,
+                ),
+                underline: Container(),
+                onChanged: (String? value) {},
+                alignment: Alignment.centerRight,
+                items: _permissions
+                    .map<DropdownMenuItem<String>>((String value) =>
+                        DropdownMenuItem<String>(
+                            value: value, child: SizedBox(child: Text(value))))
+                    .toList(),
+              ),
             ),
           ),
         ),

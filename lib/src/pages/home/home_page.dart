@@ -7,12 +7,14 @@ import 'package:scp/src/common/routes.dart';
 import 'package:scp/src/components/content_title.dart';
 import 'package:scp/src/controller/screen_layout_controller.dart';
 import 'package:scp/src/pages/template/contents_template.dart';
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
 
 class HomePage extends ContentTemplate {
   HomePage({Key? key}) : super(key: key);
 
   @override
-  List<Widget> customDetail() {
+  List<Widget> customDetail(BuildContext context) {
     return [
       ContentTitle(title: 'My Project'),
       _homeItemView(tempCount: 6),
@@ -24,7 +26,26 @@ class HomePage extends ContentTemplate {
     ];
   }
 
+  /// 결제 Acount 테스트
+  Future<void> _accountTest() async {
+    String realName = '권태웅';
+    var url = Uri.https('openapi.openbanking.or.kr', 'v2.0/inquiry/$realName',
+        {'q': '{https}'});
+
+    // Await the http get response, then decode the json-formatted response.
+    var response = await http.post(url, body: {});
+    if (response.statusCode == 200) {
+      var jsonResponse =
+          convert.jsonDecode(response.body) as Map<String, dynamic>;
+      var itemCount = jsonResponse['totalItems'];
+      print('Number of books about http: $itemCount.');
+    } else {
+      print('Request failed with status: ${response.statusCode}.');
+    }
+  }
+
   Widget _homeItemView({int tempCount = 2}) {
+    // _accountTest();
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),

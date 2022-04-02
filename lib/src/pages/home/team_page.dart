@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:scp/src/common/colors.dart';
+import 'package:scp/src/common/routes.dart';
 import 'package:scp/src/components/content_title.dart';
 import 'package:scp/src/controller/screen_layout_controller.dart';
 import 'package:scp/src/pages/template/contents_template.dart';
@@ -8,7 +10,7 @@ class TeamPage extends ContentTemplate {
   TeamPage({Key? key}) : super(key: key);
 
   @override
-  List<Widget> customDetail() {
+  List<Widget> customDetail(BuildContext context) {
     return [
       ContentTitle(title: 'My Team'),
       _homeItemView(tempCount: 1),
@@ -76,7 +78,10 @@ class TeamPage extends ContentTemplate {
                   IconButton(
                     splashRadius: 20,
                     iconSize: 30,
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(AllRoutes.TEAM_EDIT
+                          .replaceAll(AllRoutes.ARGS_TEAMID, '1'));
+                    },
                     padding: EdgeInsets.zero,
                     icon: Icon(
                       Icons.more_horiz,
@@ -145,7 +150,9 @@ class TeamPage extends ContentTemplate {
   @override
   FloatingActionButton? floatingActionButton() {
     return FloatingActionButton(
-      onPressed: () {},
+      onPressed: () {
+        Get.toNamed(AllRoutes.TEAM_ADD);
+      },
       child: Icon(
         Icons.add,
         color: CustomColors.beige,

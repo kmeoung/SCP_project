@@ -12,7 +12,7 @@ class TaskPage extends ContentTemplate {
   TaskPage({Key? key}) : super(key: key);
 
   @override
-  List<Widget> customDetail() {
+  List<Widget> customDetail(BuildContext context) {
     return [
       ContentTitle(
         title: 'Project Name ${Get.parameters[AllRoutes.PID]}',

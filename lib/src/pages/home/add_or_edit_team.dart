@@ -9,18 +9,22 @@ import 'package:scp/src/components/content_title.dart';
 import 'package:scp/src/controller/screen_layout_controller.dart';
 import 'package:scp/src/pages/template/contents_template.dart';
 
-class AddOrEditTask extends ContentTemplate {
-  AddOrEditTask({Key? key}) : super(key: key);
+class AddOrEditTeam extends ContentTemplate {
+  AddOrEditTeam({Key? key}) : super(key: key);
   bool isEdit = false;
   @override
   List<Widget> customDetail(BuildContext context) {
-    isEdit = Get.parameters[AllRoutes.TID] != null;
+    isEdit = Get.parameters[AllRoutes.TEAMID] != null;
 
     return [
       ContentTitle(
-        title: '${isEdit ? 'Edit' : 'Add'} Task',
+        title: '${isEdit ? 'Edit' : 'Add'} Team',
       ),
-      _contents('Input Contents', minHeight: 300),
+      _header('Input Team Title'),
+      const SizedBox(
+        height: 20,
+      ),
+      _addTeam(context, 'Add Team'),
       const SizedBox(
         height: 20,
       ),
@@ -29,54 +33,67 @@ class AddOrEditTask extends ContentTemplate {
         height: 40,
       ),
       _member(),
+      const SizedBox(
+        height: 10,
+      ),
+      _member(),
+      const SizedBox(
+        height: 10,
+      ),
+      _member(),
     ];
   }
 
-  Widget _contents(String title, {double minHeight = 0}) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Card(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-            elevation: 5.0,
-            color: Colors.white,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: minHeight),
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TextField(
-                  textInputAction: TextInputAction.next,
-                  maxLines: null,
-                  decoration: InputDecoration(
-                    hintText: title,
-                    hintStyle:
-                        TextStyle(color: CustomColors.black.withOpacity(0.5)),
-                    label: null,
-                    focusedBorder: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                  ),
-                ),
-              ),
+  Widget _header(String title) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      elevation: 5.0,
+      color: Colors.white,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: TextField(
+          textInputAction: TextInputAction.next,
+          maxLines: null,
+          decoration: InputDecoration(
+            hintText: title,
+            hintStyle: TextStyle(color: CustomColors.black.withOpacity(0.5)),
+            label: null,
+            focusedBorder: InputBorder.none,
+            enabledBorder: InputBorder.none,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _addTeam(BuildContext context, String title) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      elevation: 5.0,
+      color: Colors.white,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10.0),
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AddTeamDialog(
+                width: Get.width * 0.7,
+                height: Get.height * 0.5,
+              );
+            },
+          );
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 17),
+          child: Text(
+            title,
+            style: TextStyle(
+              color: CustomColors.black.withOpacity(0.5),
             ),
           ),
         ),
-        Card(
-          color: CustomColors.red,
-          elevation: 5,
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-            child: Text(
-              'yyyy-MM-dd',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: CustomColors.beige,
-              ),
-            ),
-          ),
-        )
-      ],
+      ),
     );
   }
 
