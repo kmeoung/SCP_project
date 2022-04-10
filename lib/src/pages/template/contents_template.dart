@@ -5,7 +5,8 @@ import 'package:scp/src/controller/screen_layout_controller.dart';
 import 'package:scp/src/pages/template/default_template.dart';
 
 abstract class ContentTemplate extends GetView<ScreenLayoutController> {
-  ContentTemplate({Key? key}) : super(key: key);
+  final String _userId;
+  ContentTemplate(this._userId, {Key? key}) : super(key: key);
 
   final ScrollController _scrollController = ScrollController();
 
@@ -24,6 +25,7 @@ abstract class ContentTemplate extends GetView<ScreenLayoutController> {
         return Future.value(false);
       },
       child: DefaultTemplate(
+        _userId,
         mainContents: Obx(
           () {
             switch (controller.type.value) {

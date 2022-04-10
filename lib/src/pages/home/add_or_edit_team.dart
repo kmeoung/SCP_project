@@ -10,7 +10,9 @@ import 'package:scp/src/controller/screen_layout_controller.dart';
 import 'package:scp/src/pages/template/contents_template.dart';
 
 class AddOrEditTeam extends ContentTemplate {
-  AddOrEditTeam({Key? key}) : super(key: key);
+  final String uid;
+
+  AddOrEditTeam({required this.uid, Key? key}) : super(uid, key: key);
   bool isEdit = false;
   @override
   List<Widget> customDetail(BuildContext context) {
@@ -56,7 +58,8 @@ class AddOrEditTeam extends ContentTemplate {
           maxLines: null,
           decoration: InputDecoration(
             hintText: title,
-            hintStyle: TextStyle(color: CustomColors.black.withOpacity(0.5)),
+            hintStyle:
+                TextStyle(color: CustomColors.deepPurple.withOpacity(0.5)),
             label: null,
             focusedBorder: InputBorder.none,
             enabledBorder: InputBorder.none,
@@ -89,7 +92,7 @@ class AddOrEditTeam extends ContentTemplate {
           child: Text(
             title,
             style: TextStyle(
-              color: CustomColors.black.withOpacity(0.5),
+              color: CustomColors.deepPurple.withOpacity(0.5),
             ),
           ),
         ),
@@ -120,7 +123,7 @@ class AddOrEditTeam extends ContentTemplate {
           child: Text(
             title,
             style: TextStyle(
-              color: CustomColors.black.withOpacity(0.5),
+              color: CustomColors.deepPurple.withOpacity(0.5),
             ),
           ),
         ),
@@ -142,14 +145,14 @@ class AddOrEditTeam extends ContentTemplate {
                 color: Colors.black.withOpacity(0.5),
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
                 border: Border.all(
-                    color: CustomColors.black.withOpacity(0.2), width: 1)),
+                    color: CustomColors.deepPurple.withOpacity(0.2), width: 1)),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: Row(
                 children: [
                   CircleAvatar(
                     radius: 20,
-                    backgroundColor: CustomColors.beige,
+                    backgroundColor: CustomColors.white,
                   ),
                   const SizedBox(
                     width: 10,
@@ -157,7 +160,7 @@ class AddOrEditTeam extends ContentTemplate {
                   Expanded(
                     child: Text(
                       'name',
-                      style: TextStyle(color: CustomColors.beige, fontSize: 12),
+                      style: TextStyle(color: CustomColors.white, fontSize: 12),
                     ),
                   ),
                   IconButton(
@@ -165,7 +168,7 @@ class AddOrEditTeam extends ContentTemplate {
                     onPressed: () {},
                     icon: Icon(
                       Icons.close,
-                      color: CustomColors.beige,
+                      color: CustomColors.white,
                     ),
                   ),
                 ],
@@ -173,7 +176,7 @@ class AddOrEditTeam extends ContentTemplate {
             ),
           ),
         ),
-        controller.type.value != ScreenSizeType.MOBILE
+        controller.type != ScreenSizeType.MOBILE
             ? Flexible(flex: 2, child: Container())
             : Container(),
         Flexible(
@@ -187,15 +190,15 @@ class AddOrEditTeam extends ContentTemplate {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               width: double.infinity,
               child: DropdownButton(
-                dropdownColor: CustomColors.beige,
+                dropdownColor: CustomColors.white,
                 borderRadius: BorderRadius.circular(10.0),
                 isExpanded: true,
                 value: _permissions[0],
                 elevation: 0,
-                style: TextStyle(color: CustomColors.black, fontSize: 12),
+                style: TextStyle(color: CustomColors.deepPurple, fontSize: 12),
                 icon: Icon(
                   Icons.arrow_drop_down_rounded,
-                  color: CustomColors.black,
+                  color: CustomColors.deepPurple,
                 ),
                 underline: Container(),
                 onChanged: (String? value) {},
@@ -221,13 +224,13 @@ class AddOrEditTeam extends ContentTemplate {
       },
       label: Text(
         isEdit ? 'Edit' : 'Create',
-        style: TextStyle(color: CustomColors.beige),
+        style: TextStyle(color: CustomColors.white),
       ),
       icon: Icon(
         Icons.edit,
-        color: CustomColors.beige,
+        color: CustomColors.white,
       ),
-      backgroundColor: CustomColors.black,
+      backgroundColor: CustomColors.deepPurple,
     );
   }
 }

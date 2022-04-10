@@ -10,11 +10,14 @@ import 'package:scp/src/controller/screen_layout_controller.dart';
 import 'package:scp/src/pages/template/contents_template.dart';
 
 class AddOrEditProject extends ContentTemplate {
-  AddOrEditProject({Key? key}) : super(key: key);
+  final String uid;
+  final String? pid;
+  AddOrEditProject({required this.uid, this.pid, Key? key})
+      : super(uid, key: key);
   bool isEdit = false;
   @override
   List<Widget> customDetail(BuildContext context) {
-    isEdit = Get.parameters[AllRoutes.PID] != null;
+    isEdit = pid != null;
 
     return [
       ContentTitle(
@@ -56,7 +59,8 @@ class AddOrEditProject extends ContentTemplate {
           maxLines: null,
           decoration: InputDecoration(
             hintText: title,
-            hintStyle: TextStyle(color: CustomColors.black.withOpacity(0.5)),
+            hintStyle:
+                TextStyle(color: CustomColors.deepPurple.withOpacity(0.5)),
             label: null,
             focusedBorder: InputBorder.none,
             enabledBorder: InputBorder.none,
@@ -89,7 +93,7 @@ class AddOrEditProject extends ContentTemplate {
           child: Text(
             title,
             style: TextStyle(
-              color: CustomColors.black.withOpacity(0.5),
+              color: CustomColors.deepPurple.withOpacity(0.5),
             ),
           ),
         ),
@@ -120,7 +124,7 @@ class AddOrEditProject extends ContentTemplate {
           child: Text(
             title,
             style: TextStyle(
-              color: CustomColors.black.withOpacity(0.5),
+              color: CustomColors.deepPurple.withOpacity(0.5),
             ),
           ),
         ),
@@ -142,30 +146,30 @@ class AddOrEditProject extends ContentTemplate {
                 color: Colors.black.withOpacity(0.5),
                 borderRadius: const BorderRadius.all(Radius.circular(10)),
                 border: Border.all(
-                    color: CustomColors.black.withOpacity(0.2), width: 1)),
+                    color: CustomColors.deepPurple.withOpacity(0.2), width: 1)),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
               child: Row(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 20,
-                    backgroundColor: CustomColors.beige,
+                    backgroundColor: CustomColors.white,
                   ),
                   const SizedBox(
                     width: 10,
                   ),
-                  Expanded(
+                  const Expanded(
                     child: Text(
                       'name',
-                      style: TextStyle(color: CustomColors.beige, fontSize: 12),
+                      style: TextStyle(color: CustomColors.white, fontSize: 12),
                     ),
                   ),
                   IconButton(
                     splashRadius: 20,
                     onPressed: () {},
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.close,
-                      color: CustomColors.beige,
+                      color: CustomColors.white,
                     ),
                   ),
                 ],
@@ -173,7 +177,7 @@ class AddOrEditProject extends ContentTemplate {
             ),
           ),
         ),
-        controller.type.value != ScreenSizeType.MOBILE
+        controller.type != ScreenSizeType.MOBILE
             ? Flexible(flex: 2, child: Container())
             : Container(),
         Flexible(
@@ -187,15 +191,16 @@ class AddOrEditProject extends ContentTemplate {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               width: double.infinity,
               child: DropdownButton(
-                dropdownColor: CustomColors.beige,
+                dropdownColor: CustomColors.white,
                 borderRadius: BorderRadius.circular(10.0),
                 isExpanded: true,
                 value: _permissions[0],
                 elevation: 0,
-                style: TextStyle(color: CustomColors.black, fontSize: 12),
-                icon: Icon(
+                style: const TextStyle(
+                    color: CustomColors.deepPurple, fontSize: 12),
+                icon: const Icon(
                   Icons.arrow_drop_down_rounded,
-                  color: CustomColors.black,
+                  color: CustomColors.deepPurple,
                 ),
                 underline: Container(),
                 onChanged: (String? value) {},
@@ -221,13 +226,13 @@ class AddOrEditProject extends ContentTemplate {
       },
       label: Text(
         isEdit ? 'Edit' : 'Create',
-        style: TextStyle(color: CustomColors.beige),
+        style: TextStyle(color: CustomColors.white),
       ),
-      icon: Icon(
+      icon: const Icon(
         Icons.edit,
-        color: CustomColors.beige,
+        color: CustomColors.white,
       ),
-      backgroundColor: CustomColors.black,
+      backgroundColor: CustomColors.deepPurple,
     );
   }
 }

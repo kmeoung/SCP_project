@@ -4,13 +4,18 @@ import 'package:scp/src/common/colors.dart';
 import 'package:scp/src/common/routes.dart';
 import 'package:scp/src/components/profile_dialog.dart';
 import 'package:scp/src/controller/screen_layout_controller.dart';
+import 'package:scp/src/pages/home/home_page.dart';
+import 'package:scp/src/pages/home/project_page.dart';
+import 'package:scp/src/pages/home/team_page.dart';
 
 /// Desktop -> 오른쪽 메뉴
 /// Mobile -> Drawer
 class RightMenu extends StatelessWidget {
   double width;
   ScreenSizeType screenSizeType;
-  RightMenu({
+  final _userId;
+  RightMenu(
+    this._userId, {
     Key? key,
     this.width = 300,
     this.screenSizeType = ScreenSizeType.DESKTOP,
@@ -32,7 +37,7 @@ class RightMenu extends StatelessWidget {
   Widget _sizeMenuDetail(BuildContext context, bool isDesktop) {
     return Container(
       height: double.infinity,
-      color: CustomColors.black,
+      color: CustomColors.deepPurple,
       child: SingleChildScrollView(
         controller: _scrollController,
         child: Container(
@@ -64,7 +69,7 @@ class RightMenu extends StatelessWidget {
                   children: const [
                     CircleAvatar(
                       radius: 20,
-                      backgroundColor: CustomColors.beige,
+                      backgroundColor: CustomColors.white,
                     ),
                     Expanded(
                       child: Padding(
@@ -75,7 +80,7 @@ class RightMenu extends StatelessWidget {
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
-                              color: CustomColors.beige),
+                              color: CustomColors.white),
                         ),
                       ),
                     ),
@@ -83,7 +88,7 @@ class RightMenu extends StatelessWidget {
                 ),
               ),
               const Divider(
-                color: CustomColors.beige,
+                color: CustomColors.white,
                 thickness: 1,
                 height: 40,
               ),
@@ -92,16 +97,18 @@ class RightMenu extends StatelessWidget {
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
-                    color: CustomColors.beige),
+                    color: CustomColors.white),
               ),
               const SizedBox(
                 height: 20,
               ),
               _sideMenu('Home', onPressed: () {
-                Get.toNamed(AllRoutes.HOME);
+                Get.to(HomePage(_userId));
               }),
               _sideMenu('Team', onPressed: () {
-                Get.toNamed(AllRoutes.TEAM);
+                Get.to(TeamPage(
+                  uid: _userId,
+                ));
               }),
               _sideMenu('Chat', onPressed: () {
                 Get.dialog(
@@ -125,7 +132,7 @@ class RightMenu extends StatelessWidget {
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 30,
-                    color: CustomColors.beige),
+                    color: CustomColors.white),
               ),
               const SizedBox(
                 height: 20,
@@ -133,8 +140,10 @@ class RightMenu extends StatelessWidget {
               ...List.generate(
                 10,
                 (index) => _sideMenu('project $index', onPressed: () {
-                  Get.toNamed(AllRoutes.PROJECT_ALL
-                      .replaceAll(AllRoutes.ARGS_PID, '$index'));
+                  Get.to(ProjectPage(
+                      pid: '$index',
+                      uid: _userId,
+                      pageType: PROJECT_PAGE_TYPE.ALL));
                 }),
               ),
             ],
@@ -186,9 +195,9 @@ class RightMenu extends StatelessWidget {
       MaterialState.pressed,
     };
     if (states.any(interactiveStates.contains)) {
-      return CustomColors.apricot;
+      return CustomColors.purple;
     }
-    return CustomColors.beige;
+    return CustomColors.white;
   }
 
   /// Drawer 버튼 이벤트

@@ -33,7 +33,7 @@ class ProfileDialog extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: isDesktop ? 100 : 50,
-                  backgroundColor: CustomColors.black,
+                  backgroundColor: CustomColors.deepPurple,
                 ),
                 SizedBox(
                   height: isDesktop ? 50 : 25,
@@ -51,7 +51,7 @@ class ProfileDialog extends StatelessWidget {
                       decoration: InputDecoration(
                         hintText: 'Nick Name',
                         hintStyle: TextStyle(
-                            color: CustomColors.black.withOpacity(0.5)),
+                            color: CustomColors.deepPurple.withOpacity(0.5)),
                         label: null,
                         focusedBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
@@ -66,7 +66,7 @@ class ProfileDialog extends StatelessWidget {
             width: double.infinity,
             child: _saveBtn(
                 title: 'Save',
-                color: CustomColors.green.withOpacity(0.8),
+                color: CustomColors.whitePurple.withOpacity(0.8),
                 onTap: () {}),
           ),
         ],
@@ -89,7 +89,7 @@ class ProfileDialog extends StatelessWidget {
           child: Text(
             title,
             textAlign: TextAlign.center,
-            style: const TextStyle(color: CustomColors.beige, fontSize: 15),
+            style: const TextStyle(color: CustomColors.white, fontSize: 15),
           ),
         ),
       ),
@@ -106,7 +106,7 @@ class ProfileDialog extends StatelessWidget {
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: CustomColors.beige,
+          color: CustomColors.white,
           borderRadius: BorderRadius.circular(10.0),
         ),
         width: width,

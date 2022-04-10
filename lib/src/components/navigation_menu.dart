@@ -29,16 +29,33 @@ class NavigationMenu extends StatelessWidget {
   /// Navigation Mobile Layout
   Widget _mobileLayout() {
     return Container(
-      color: CustomColors.black,
+      color: CustomColors.deepPurple,
       padding: const EdgeInsets.only(left: 15),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Expanded(
-            child: Text(
-              'SCP',
-              style: TextStyle(fontSize: 45, color: CustomColors.beige),
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: const [
+                Text(
+                  'SCP ',
+                  style: TextStyle(
+                      color: CustomColors.yellow,
+                      fontSize: 45,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  'Project ',
+                  style: TextStyle(
+                      color: CustomColors.white,
+                      fontSize: 45,
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
           ),
           InkWell(
@@ -51,7 +68,7 @@ class NavigationMenu extends StatelessWidget {
               height: 80,
               child: Icon(
                 Icons.menu,
-                color: CustomColors.beige,
+                color: CustomColors.white,
               ),
             ),
           ),

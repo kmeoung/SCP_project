@@ -26,7 +26,7 @@ class ContentTitle extends StatelessWidget {
               // 그라데이션 필요할 시 추가
               fontSize: 30,
               fontWeight: FontWeight.bold,
-              color: CustomColors.black,
+              color: CustomColors.deepPurple,
               // foreground: Paint()
               //   ..shader = ui.Gradient.linear(
               //     const Offset(0, 20),
@@ -50,7 +50,7 @@ class ContentTitle extends StatelessWidget {
               icon: const Icon(
                 // 더보기 아이콘
                 Icons.more_horiz,
-                color: CustomColors.black,
+                color: CustomColors.deepPurple,
               ),
             ),
           ),
@@ -61,7 +61,7 @@ class ContentTitle extends StatelessWidget {
       ),
       const Divider(
         // Title Divider
-        color: CustomColors.red,
+        color: CustomColors.yellow,
         thickness: 2,
         height: 5,
       ),

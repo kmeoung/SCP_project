@@ -6,26 +6,23 @@ import 'package:get/get.dart';
 import 'package:scp/src/common/colors.dart';
 import 'package:scp/src/common/routes.dart';
 import 'package:scp/src/components/content_title.dart';
+import 'package:scp/src/pages/home/add_or_edit_task.dart';
 import 'package:scp/src/pages/template/contents_template.dart';
 
 class TaskPage extends ContentTemplate {
-  TaskPage({Key? key}) : super(key: key);
+  final String uid;
+  final String pid;
+  final String tid;
+  TaskPage({required this.uid, required this.pid, required this.tid, Key? key})
+      : super(uid, key: key);
 
   @override
   List<Widget> customDetail(BuildContext context) {
     return [
       ContentTitle(
-        title: 'Project Name ${Get.parameters[AllRoutes.PID]}',
+        title: 'Project Name $pid',
         onTapMore: () {
-          if (Get.parameters[AllRoutes.TID] != null) {
-            Get.toNamed(
-              AllRoutes.TASK_EDIT
-                  .replaceAll(
-                      AllRoutes.ARGS_PID, Get.parameters[AllRoutes.PID]!)
-                  .replaceAll(
-                      AllRoutes.ARGS_TID, Get.parameters[AllRoutes.TID]!),
-            );
-          }
+          Get.to(AddOrEditTask(uid: uid, pid: pid, tid: tid));
         },
       ),
       _headerTaskPerson(),
@@ -58,21 +55,21 @@ class TaskPage extends ContentTemplate {
               color: Colors.black.withOpacity(0.5),
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               border: Border.all(
-                  color: CustomColors.black.withOpacity(0.2), width: 1)),
+                  color: CustomColors.deepPurple.withOpacity(0.2), width: 1)),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             child: Row(
               children: [
                 CircleAvatar(
                   radius: 20,
-                  backgroundColor: CustomColors.beige,
+                  backgroundColor: CustomColors.white,
                 ),
                 const SizedBox(
                   width: 10,
                 ),
                 Text(
                   'name',
-                  style: TextStyle(color: CustomColors.beige, fontSize: 12),
+                  style: TextStyle(color: CustomColors.white, fontSize: 12),
                 ),
               ],
             ),
@@ -80,7 +77,7 @@ class TaskPage extends ContentTemplate {
         ),
         Icon(
           Icons.arrow_right_alt,
-          color: CustomColors.black,
+          color: CustomColors.deepPurple,
           size: 40,
         ),
         Container(
@@ -88,21 +85,21 @@ class TaskPage extends ContentTemplate {
               color: Colors.black.withOpacity(0.5),
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               border: Border.all(
-                  color: CustomColors.black.withOpacity(0.2), width: 1)),
+                  color: CustomColors.deepPurple.withOpacity(0.2), width: 1)),
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             child: Row(
               children: [
                 CircleAvatar(
                   radius: 20,
-                  backgroundColor: CustomColors.beige,
+                  backgroundColor: CustomColors.white,
                 ),
                 const SizedBox(
                   width: 10,
                 ),
                 Text(
                   'name',
-                  style: TextStyle(color: CustomColors.beige, fontSize: 12),
+                  style: TextStyle(color: CustomColors.white, fontSize: 12),
                 ),
               ],
             ),
@@ -132,7 +129,7 @@ class TaskPage extends ContentTemplate {
           ),
         ),
         Card(
-          color: CustomColors.red,
+          color: CustomColors.yellow,
           elevation: 5,
           child: Container(
             margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
@@ -140,7 +137,7 @@ class TaskPage extends ContentTemplate {
               'yyyy-MM-dd',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: CustomColors.beige,
+                color: CustomColors.white,
               ),
             ),
           ),
@@ -154,7 +151,7 @@ class TaskPage extends ContentTemplate {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       elevation: 5.0,
-      color: CustomColors.black.withOpacity(0.7),
+      color: CustomColors.deepPurple.withOpacity(0.7),
       child: Container(
         padding: const EdgeInsets.all(5.0),
         child: Column(
@@ -168,7 +165,7 @@ class TaskPage extends ContentTemplate {
                 children: [
                   CircleAvatar(
                     radius: 20,
-                    backgroundColor: CustomColors.beige,
+                    backgroundColor: CustomColors.white,
                   ),
                   const SizedBox(
                     width: 10,
@@ -176,7 +173,7 @@ class TaskPage extends ContentTemplate {
                   Expanded(
                     child: Text(
                       'name',
-                      style: TextStyle(color: CustomColors.beige, fontSize: 12),
+                      style: TextStyle(color: CustomColors.white, fontSize: 12),
                     ),
                   ),
                   Text(
@@ -184,7 +181,7 @@ class TaskPage extends ContentTemplate {
                     textAlign: TextAlign.end,
                     style: TextStyle(
                       fontWeight: FontWeight.normal,
-                      color: CustomColors.beige,
+                      color: CustomColors.white,
                     ),
                   ),
                 ],
@@ -218,7 +215,8 @@ class TaskPage extends ContentTemplate {
           maxLines: null,
           decoration: InputDecoration(
             hintText: 'Input Comment',
-            hintStyle: TextStyle(color: CustomColors.black.withOpacity(0.5)),
+            hintStyle:
+                TextStyle(color: CustomColors.deepPurple.withOpacity(0.5)),
             label: null,
             focusedBorder: InputBorder.none,
             enabledBorder: InputBorder.none,

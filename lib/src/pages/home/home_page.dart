@@ -1,37 +1,80 @@
-import 'dart:math';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:scp/http/scp_http_client.dart';
 import 'package:scp/src/common/colors.dart';
+import 'package:scp/src/common/comm_param.dart';
 import 'package:scp/src/common/routes.dart';
 import 'package:scp/src/components/content_title.dart';
+import 'package:scp/src/controller/home_controller.dart';
 import 'package:scp/src/controller/screen_layout_controller.dart';
+import 'package:scp/src/json_object/home/home_project_obj.dart';
+import 'package:scp/src/json_object/task_obj.dart';
+import 'package:scp/src/pages/home/add_or_edit_project.dart';
+import 'package:scp/src/pages/home/project_page.dart';
+import 'package:scp/src/pages/home/task_page.dart';
 import 'package:scp/src/pages/template/contents_template.dart';
 
 class HomePage extends ContentTemplate {
-  HomePage({Key? key}) : super(key: key);
+  final String _userId;
+  HomePage(this._userId, {Key? key}) : super(_userId, key: key);
 
   @override
   List<Widget> customDetail(BuildContext context) {
-    ScpHttpClient.get('detailUrl');
+    Get.put(HomeController());
+    _getData();
     return [
       ContentTitle(title: 'My Project'),
-      _homeItemView(tempCount: 6),
+      _homeItemView(projects: Get.find<HomeController>().myProjects),
       const SizedBox(
         height: 40,
       ),
       ContentTitle(title: 'Shared Project'),
-      _homeItemView(tempCount: 3),
+      _homeItemView(projects: Get.find<HomeController>().anotherProjects),
     ];
   }
 
-  Widget _homeItemView({int tempCount = 2}) {
-    // _accountTest();
+  /// Get Server
+  _getData() {
+    var url = Comm_Params.URL_HOME
+        .replaceAll(Comm_Params.USER_ID, Get.parameters[AllRoutes.USERID]!);
+    ScpHttpClient.get(
+      url,
+      onSuccess: (json, message) {
+        Get.find<HomeController>().clear(projectType: PROJECT_TYPE.ALL);
+        List<dynamic> projects = json['projects'];
+        if (projects.isNotEmpty) {
+          for (Map<String, dynamic> json in projects) {
+            ProjectObject obj = ProjectObject.fromJson(json);
+            if (obj.userCode == IS_HAVE.leader) {
+              Get.find<HomeController>().add(
+                obj,
+                projectType: PROJECT_TYPE.MY,
+              );
+            } else {
+              Get.find<HomeController>().add(
+                obj,
+                projectType: PROJECT_TYPE.ANOTHER,
+              );
+            }
+          }
+        }
+      },
+      onFailed: (message) {
+        Get.find<HomeController>().clear(projectType: PROJECT_TYPE.ALL);
+        Get.snackbar('Server Error', message,
+            snackPosition: SnackPosition.BOTTOM);
+      },
+    );
+  }
+
+  /// View Binding Home Item View
+  Widget _homeItemView({required List<ProjectObject> projects}) {
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      itemCount: tempCount,
+      itemCount: projects.length,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: controller.type.value == ScreenSizeType.MOBILE
             ? 2
@@ -43,23 +86,33 @@ class HomePage extends ContentTemplate {
         mainAxisSpacing: 5,
       ),
       itemBuilder: (context, index) {
-        return _projectCard('Project $index', index);
+        return _projectCard(projects[index]);
       },
     );
   }
 
-  Widget _projectCard(String title, int pid) {
+  /// View Binding Project Card
+  Widget _projectCard(ProjectObject project) {
+    int taskSize = project.tasklist.length;
+    int successTasks = project.tasklist
+        .where((element) =>
+            TaskObject.fromJson(element as Map<String, dynamic>).taskComplete ==
+            1)
+        .length;
     return InkWell(
       onTap: () {
-        Get.toNamed(
-          AllRoutes.PROJECT_ALL.replaceAll(AllRoutes.ARGS_PID, '$pid'),
+        Get.to(
+          ProjectPage(
+              pid: '${project.projectId}',
+              uid: _userId,
+              pageType: PROJECT_PAGE_TYPE.ALL),
         );
       },
       child: Card(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         elevation: 5.0,
-        color: CustomColors.black,
+        color: CustomColors.deepPurple,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -77,11 +130,11 @@ class HomePage extends ContentTemplate {
                   children: [
                     Expanded(
                       child: Text(
-                        title,
-                        style: TextStyle(
+                        project.projectName,
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.normal,
-                          color: CustomColors.beige,
+                          color: CustomColors.white,
                           overflow: TextOverflow.ellipsis,
                         ),
                         textAlign: TextAlign.left,
@@ -91,15 +144,17 @@ class HomePage extends ContentTemplate {
                       splashRadius: 20,
                       iconSize: 30,
                       onPressed: () {
-                        Get.toNamed(
-                          AllRoutes.PROJECT_EDIT
-                              .replaceAll(AllRoutes.ARGS_PID, '$pid'),
+                        Get.to(
+                          AddOrEditProject(
+                            uid: _userId,
+                            pid: '${project.projectId}',
+                          ),
                         );
                       },
                       padding: EdgeInsets.zero,
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.more_horiz,
-                        color: CustomColors.beige,
+                        color: CustomColors.white,
                       ),
                     ),
                   ],
@@ -108,31 +163,54 @@ class HomePage extends ContentTemplate {
             ),
             Expanded(
               child: Container(
-                color: CustomColors.beige,
+                color: CustomColors.white,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: List.generate(
-                    Random().nextInt(3) + 1,
+                    (project.tasklist.length > 3)
+                        ? 3
+                        : project.tasklist.isEmpty
+                            ? 1
+                            : project.tasklist.length,
                     (index) {
-                      int rand = Random().nextInt(3);
-                      var color = CustomColors.black;
-                      String tempTitleHeader = '';
-                      switch (rand) {
-                        case 0:
-                          color = CustomColors.red;
-                          tempTitleHeader = 'Delayed';
-                          break;
-                        case 1:
-                          color = CustomColors.green;
-                          tempTitleHeader = 'Succeed';
-                          break;
+                      if (project.tasklist.isEmpty) {
+                        return Expanded(
+                          child: _taskCard(project.projectId, -1,
+                              title: '할 일을 추가해 주세요.', color: CustomColors.gray),
+                        );
+                      } else {
+                        TaskObject task = TaskObject.fromJson(
+                            project.tasklist[index] as Map<String, dynamic>);
+
+                        var color = CustomColors.deepPurple;
+                        switch (task.taskComplete) {
+                          case 0: // 완료하지 않은 할 일
+                            color = CustomColors.deepPurple;
+                            break;
+                          case 1: // 완료한 할 일
+                            color = CustomColors.yellow;
+                            break;
+                        }
+
+                        DateTime now = DateTime.now();
+                        DateTime deadLine = DateTime.parse(task.taskDeadline);
+                        // 데드라인이 얼마 안 남았을 경우와 넘겼을 경우
+                        if (deadLine.year >= now.year) {
+                          if (deadLine.month >= now.month) {
+                            if (deadLine.day >= now.day) {
+                              if (deadLine.hour >= now.hour) {
+                                color = CustomColors.gray;
+                              }
+                            }
+                          }
+                        }
+
+                        return Expanded(
+                          child: _taskCard(project.projectId, task.taskId,
+                              title: task.taskContent, color: color),
+                        );
                       }
-                      return Expanded(
-                        child: _taskCard(pid, index,
-                            title: 'Task $index $tempTitleHeader',
-                            color: color),
-                      );
                     },
                   ),
                 ),
@@ -146,9 +224,11 @@ class HomePage extends ContentTemplate {
               alignment: Alignment.center,
               color: Colors.transparent,
               child: LinearProgressIndicator(
-                value: Random().nextDouble(),
-                backgroundColor: CustomColors.beige,
-                color: CustomColors.red,
+                value: project.tasklist.isEmpty
+                    ? 0
+                    : taskSize / successTasks * 0.1,
+                backgroundColor: CustomColors.white,
+                color: CustomColors.yellow,
                 minHeight: 5,
               ),
             ),
@@ -158,15 +238,24 @@ class HomePage extends ContentTemplate {
     );
   }
 
+  /// View Binding Task Card
   Widget _taskCard(int pid, int tid,
       {required String title, required Color color}) {
     return InkWell(
       onTap: () {
-        Get.toNamed(
-          AllRoutes.TASK
-              .replaceAll(AllRoutes.ARGS_PID, '$pid')
-              .replaceAll(AllRoutes.ARGS_TID, '$tid'),
-        );
+        if (tid > -1) {
+          Get.to(TaskPage(
+            uid: _userId,
+            pid: '$pid',
+            tid: '$tid',
+          ));
+        } else {
+          Get.to(ProjectPage(
+            uid: _userId,
+            pid: '$pid',
+            pageType: PROJECT_PAGE_TYPE.ALL,
+          ));
+        }
       },
       child: Card(
         elevation: 5.0,
@@ -180,13 +269,17 @@ class HomePage extends ContentTemplate {
               Expanded(
                 child: Text(
                   title,
-                  style: TextStyle(color: CustomColors.beige),
+                  style: const TextStyle(color: CustomColors.white),
                   overflow: TextOverflow.ellipsis,
+                  textAlign: tid > -1 ? TextAlign.start : TextAlign.center,
                 ),
               ),
-              CircleAvatar(
-                radius: 20,
-                backgroundColor: CustomColors.beige,
+              Visibility(
+                visible: tid > -1,
+                child: const CircleAvatar(
+                  radius: 20,
+                  backgroundColor: CustomColors.white,
+                ),
               )
             ],
           ),
@@ -199,13 +292,13 @@ class HomePage extends ContentTemplate {
   FloatingActionButton? floatingActionButton() {
     return FloatingActionButton(
       onPressed: () {
-        Get.toNamed(AllRoutes.PROJECT_ADD);
+        Get.to(AddOrEditProject(uid: _userId));
       },
-      child: Icon(
+      child: const Icon(
         Icons.add,
-        color: CustomColors.beige,
+        color: CustomColors.white,
       ),
-      backgroundColor: CustomColors.black,
+      backgroundColor: CustomColors.deepPurple,
     );
   }
 }

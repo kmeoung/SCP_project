@@ -1,64 +1,142 @@
 import 'dart:convert' as convert;
+
 import 'package:http/http.dart' as http;
-import 'package:scp/src/common/url.dart';
 
 class ScpHttpClient {
-  static const String _baseUrl = '192.168.0.2';
+  static const String _baseUrl = 'mmgg.kr';
 
-  static Future<String?> post(String detailUrl) async {
+  static Future<void> get(
+    String detailUrl, {
+    required Function(Map<String, dynamic> json, String message) onSuccess,
+    required Function(String message) onFailed,
+    Map<String, String>? headers,
+  }) async {
     var url = Uri.http(
       _baseUrl,
-      Comm_Params.URL_HOME.replaceAll(Comm_Params.USER_ID, '1'),
+      detailUrl,
     );
-
-    var response = await http.post(url);
-    if (response.statusCode == 200) {
-      return response.body;
+    var response = await http.get(url, headers: headers);
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      Map<String, dynamic> json = convert.jsonDecode(response.body);
+      int status = json['status'];
+      String msg = json['message'];
+      if (status >= 200 && status < 300) {
+        Map<String, dynamic> result = json['result'];
+        onSuccess(result, msg);
+      } else {
+        onFailed(msg);
+      }
     } else {
-      return null;
+      onFailed('server connected failed');
     }
   }
 
-  static Future<String?> get(String detailUrl) async {
+  static Future<void> post(
+    String detailUrl, {
+    required Function(Map<String, dynamic> json, String message) onSuccess,
+    required Function(String message) onFailed,
+    Map<String, String>? headers,
+    Object? body,
+  }) async {
     var url = Uri.http(
       _baseUrl,
-      Comm_Params.URL_HOME.replaceAll(Comm_Params.USER_ID, '1'),
+      detailUrl,
     );
-    var response = await http.get(url);
-    if (response.statusCode == 200) {
-      return response.body;
+    var response = await http.post(url, headers: headers, body: body);
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      print(response.body);
+      Map<String, dynamic> json = convert.jsonDecode(response.body);
+      int status = json['status'];
+      String msg = json['message'];
+      if (status >= 200 && status < 300) {
+        Map<String, dynamic> result = json['result'];
+        onSuccess(result, msg);
+      } else {
+        onFailed(msg);
+      }
     } else {
-      return null;
+      onFailed('server connected failed');
     }
   }
-  //   GET /homeview/{userId}
-  //   json
-  //   [
-  //   {
-  //     "projectName": "String",
-  //     "tasklist":[
-  //       {
-  //         "taskId": 4,
-  //         "projectinuserId": 5,
-  //         "taskContent": "String",
-  //         "taskOwner": "String",
-  //         "taskRequester": "string",
-  //         "taskComplete": INTEGER,
-  //         "taskAccept": INTEGER,
-  //         "taskRequesttime": "datetime",
-  //         "taskDeadline": "datetime",
-  //         "taskCreatetime": "datetime"
-  //       }
-  //     ],
-  //     "userCode": "p_member",
-  //     "projectId": 1
-  //   },
-  //   {
-  //   "projectName": "테스트003",
-  //   "tasklist": null,
-  //   "userCode": "p_leader",
-  //   "projectId": 3
-  //   }
-  //   ]
-  // }
+
+  static Future<void> patch(
+    String detailUrl, {
+    required Function(Map<String, dynamic> json, String message) onSuccess,
+    required Function(String message) onFailed,
+    Map<String, String>? headers,
+    Object? body,
+  }) async {
+    var url = Uri.http(
+      _baseUrl,
+      detailUrl,
+    );
+    var response = await http.patch(url, headers: headers, body: body);
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      Map<String, dynamic> json = convert.jsonDecode(response.body);
+      int status = json['status'];
+      String msg = json['message'];
+      if (status >= 200 && status < 300) {
+        Map<String, dynamic> result = json['result'];
+        onSuccess(result, msg);
+      } else {
+        onFailed(msg);
+      }
+    } else {
+      onFailed('server connected failed');
+    }
+  }
+
+  static Future<void> delete(
+    String detailUrl, {
+    required Function(Map<String, dynamic> json, String message) onSuccess,
+    required Function(String message) onFailed,
+    Map<String, String>? headers,
+    Object? body,
+  }) async {
+    var url = Uri.http(
+      _baseUrl,
+      detailUrl,
+    );
+    var response = await http.delete(url, headers: headers, body: body);
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      Map<String, dynamic> json = convert.jsonDecode(response.body);
+      int status = json['status'];
+      String msg = json['message'];
+      if (status >= 200 && status < 300) {
+        Map<String, dynamic> result = json['result'];
+        onSuccess(result, msg);
+      } else {
+        onFailed(msg);
+      }
+    } else {
+      onFailed('server connected failed');
+    }
+  }
+
+  static Future<void> put(
+    String detailUrl, {
+    required Function(Map<String, dynamic> json, String message) onSuccess,
+    required Function(String message) onFailed,
+    Map<String, String>? headers,
+    Object? body,
+  }) async {
+    var url = Uri.http(
+      _baseUrl,
+      detailUrl,
+    );
+    var response = await http.put(url, headers: headers, body: body);
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      Map<String, dynamic> json = convert.jsonDecode(response.body);
+      int status = json['status'];
+      String msg = json['message'];
+      if (status >= 200 && status < 300) {
+        Map<String, dynamic> result = json['result'];
+        onSuccess(result, msg);
+      } else {
+        onFailed(msg);
+      }
+    } else {
+      onFailed('server connected failed');
+    }
+  }
 }

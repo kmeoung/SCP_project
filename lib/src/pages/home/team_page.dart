@@ -4,10 +4,12 @@ import 'package:scp/src/common/colors.dart';
 import 'package:scp/src/common/routes.dart';
 import 'package:scp/src/components/content_title.dart';
 import 'package:scp/src/controller/screen_layout_controller.dart';
+import 'package:scp/src/pages/home/add_or_edit_team.dart';
 import 'package:scp/src/pages/template/contents_template.dart';
 
 class TeamPage extends ContentTemplate {
-  TeamPage({Key? key}) : super(key: key);
+  final String uid;
+  TeamPage({required this.uid, Key? key}) : super(uid, key: key);
 
   @override
   List<Widget> customDetail(BuildContext context) {
@@ -28,9 +30,9 @@ class TeamPage extends ContentTemplate {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: tempCount,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: controller.type.value == ScreenSizeType.MOBILE
+        crossAxisCount: controller.type == ScreenSizeType.MOBILE
             ? 2
-            : controller.type.value == ScreenSizeType.TABLET
+            : controller.type == ScreenSizeType.TABLET
                 ? 3
                 : 5,
         childAspectRatio: 8 / 8,
@@ -47,7 +49,7 @@ class TeamPage extends ContentTemplate {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       elevation: 5.0,
-      color: CustomColors.black,
+      color: CustomColors.deepPurple,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -66,10 +68,10 @@ class TeamPage extends ContentTemplate {
                   Expanded(
                     child: Text(
                       title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.normal,
-                        color: CustomColors.beige,
+                        color: CustomColors.white,
                         overflow: TextOverflow.ellipsis,
                       ),
                       textAlign: TextAlign.left,
@@ -79,13 +81,12 @@ class TeamPage extends ContentTemplate {
                     splashRadius: 20,
                     iconSize: 30,
                     onPressed: () {
-                      Get.toNamed(AllRoutes.TEAM_EDIT
-                          .replaceAll(AllRoutes.ARGS_TEAMID, '1'));
+                      Get.to(TeamPage(uid: uid));
                     },
                     padding: EdgeInsets.zero,
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.more_horiz,
-                      color: CustomColors.beige,
+                      color: CustomColors.white,
                     ),
                   ),
                 ],
@@ -94,22 +95,22 @@ class TeamPage extends ContentTemplate {
           ),
           Expanded(
             child: Container(
-              color: CustomColors.beige,
+              color: CustomColors.white,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Expanded(
                     child: _taskCard(
-                        title: 'Team Member', color: CustomColors.black),
+                        title: 'Team Member', color: CustomColors.deepPurple),
                   ),
                   Expanded(
                     child: _taskCard(
-                        title: 'Team Member', color: CustomColors.black),
+                        title: 'Team Member', color: CustomColors.deepPurple),
                   ),
                   Expanded(
                     child: _taskCard(
-                        title: 'Team Member', color: CustomColors.black),
+                        title: 'Team Member', color: CustomColors.deepPurple),
                   ),
                 ],
               ),
@@ -133,13 +134,13 @@ class TeamPage extends ContentTemplate {
             Expanded(
               child: Text(
                 title,
-                style: TextStyle(color: CustomColors.beige),
+                style: TextStyle(color: CustomColors.white),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
             CircleAvatar(
               radius: 20,
-              backgroundColor: CustomColors.beige,
+              backgroundColor: CustomColors.white,
             )
           ],
         ),
@@ -151,13 +152,13 @@ class TeamPage extends ContentTemplate {
   FloatingActionButton? floatingActionButton() {
     return FloatingActionButton(
       onPressed: () {
-        Get.toNamed(AllRoutes.TEAM_ADD);
+        Get.to(AddOrEditTeam(uid: uid));
       },
-      child: Icon(
+      child: const Icon(
         Icons.add,
-        color: CustomColors.beige,
+        color: CustomColors.white,
       ),
-      backgroundColor: CustomColors.black,
+      backgroundColor: CustomColors.deepPurple,
     );
   }
 }

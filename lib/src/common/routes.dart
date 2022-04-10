@@ -3,12 +3,17 @@ class AllRoutes {
   static const String PID = 'pid';
   static const String TID = 'tid';
   static const String TEAMID = 'teamid';
+  static const String USERID = 'userid';
 
   static const String ARGS_PID = ':' + PID;
   static const String ARGS_TID = ':' + TID;
   static const String ARGS_TEAMID = ':' + TEAMID;
+  static const String ARGS_USERID = ':' + USERID;
 
-  static const String HOME = '/';
+  static const String INITROUTE = '/';
+  static const String LOGIN = INITROUTE + 'login';
+  static const String HOME = '/' + ARGS_USERID + '/';
+
   static const String TEAM = HOME + 'team';
   static const String _team = TEAM + '/$ARGS_TEAMID';
   static const String TEAM_DETAIL = _team;
