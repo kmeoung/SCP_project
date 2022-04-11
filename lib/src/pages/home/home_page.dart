@@ -18,7 +18,9 @@ import 'package:scp/src/pages/template/contents_template.dart';
 
 class HomePage extends ContentTemplate {
   final String _userId;
-  HomePage(this._userId, {Key? key}) : super(_userId, key: key);
+  HomePage({required String uid, Key? key})
+      : _userId = uid,
+        super(uid, key: key);
 
   @override
   List<Widget> customDetail(BuildContext context) {
@@ -26,20 +28,23 @@ class HomePage extends ContentTemplate {
     _getData();
     return [
       ContentTitle(title: 'My Project'),
-      _homeItemView(projects: Get.find<HomeController>().myProjects),
+      _homeItemView(
+          projects:
+              Get.find<HomeController>().get(projectType: PROJECT_TYPE.MY)),
       const SizedBox(
         height: 40,
       ),
       ContentTitle(title: 'Shared Project'),
-      _homeItemView(projects: Get.find<HomeController>().anotherProjects),
+      _homeItemView(
+          projects: Get.find<HomeController>()
+              .get(projectType: PROJECT_TYPE.ANOTHER)),
     ];
   }
 
   /// Get Server
-  _getData() {
-    var url = Comm_Params.URL_HOME
-        .replaceAll(Comm_Params.USER_ID, Get.parameters[AllRoutes.USERID]!);
-    ScpHttpClient.get(
+  _getData() async {
+    var url = Comm_Params.URL_HOME.replaceAll(Comm_Params.USER_ID, _userId);
+    await ScpHttpClient.get(
       url,
       onSuccess: (json, message) {
         Get.find<HomeController>().clear(projectType: PROJECT_TYPE.ALL);
@@ -85,9 +90,7 @@ class HomePage extends ContentTemplate {
         crossAxisSpacing: 10,
         mainAxisSpacing: 5,
       ),
-      itemBuilder: (context, index) {
-        return _projectCard(projects[index]);
-      },
+      itemBuilder: (context, index) => _projectCard(projects[index]),
     );
   }
 
@@ -99,6 +102,9 @@ class HomePage extends ContentTemplate {
             TaskObject.fromJson(element as Map<String, dynamic>).taskComplete ==
             1)
         .length;
+
+    print('task Size : $taskSize');
+    print('successTask : $successTasks');
     return InkWell(
       onTap: () {
         Get.to(
@@ -226,7 +232,9 @@ class HomePage extends ContentTemplate {
               child: LinearProgressIndicator(
                 value: project.tasklist.isEmpty
                     ? 0
-                    : taskSize / successTasks * 0.1,
+                    : (successTasks > 0)
+                        ? taskSize / successTasks * 0.1
+                        : 0,
                 backgroundColor: CustomColors.white,
                 color: CustomColors.yellow,
                 minHeight: 5,

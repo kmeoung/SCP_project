@@ -83,7 +83,9 @@ class LoginPage extends StatelessWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(10.0),
                 onTap: () {
-                  Get.to(() => HomePage(_userId));
+                  Get.to(() => HomePage(
+                        uid: _userId,
+                      ));
                 },
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 400),

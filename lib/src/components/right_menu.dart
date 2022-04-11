@@ -103,7 +103,9 @@ class RightMenu extends StatelessWidget {
                 height: 20,
               ),
               _sideMenu('Home', onPressed: () {
-                Get.to(HomePage(_userId));
+                Get.to(HomePage(
+                  uid: _userId,
+                ));
               }),
               _sideMenu('Team', onPressed: () {
                 Get.to(TeamPage(

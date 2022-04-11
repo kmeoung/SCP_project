@@ -16,6 +16,15 @@ class HomeController extends GetxController {
     update();
   }
 
+  List<ProjectObject> get({required PROJECT_TYPE projectType}) {
+    if (projectType == PROJECT_TYPE.MY) {
+      return myProjects;
+    } else if (projectType == PROJECT_TYPE.ANOTHER) {
+      return anotherProjects;
+    }
+    return myProjects;
+  }
+
   clear({required PROJECT_TYPE projectType}) {
     if (projectType == PROJECT_TYPE.MY) {
       myProjects.clear();

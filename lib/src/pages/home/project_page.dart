@@ -34,11 +34,11 @@ class ProjectPage extends ContentTemplate {
   final String SEND_TASK = 'SEND Task';
 
   /// Get All Task
-  _getAllTask() {
+  _getAllTask() async {
     var url =
         Comm_Params.URL_RPOJECT_ALL.replaceAll(Comm_Params.PROJECT_ID, pid);
     print(url);
-    ScpHttpClient.get(
+    await ScpHttpClient.get(
       url,
       onSuccess: (json, message) {
         Get.find<ProjectController>().clear();
@@ -59,12 +59,12 @@ class ProjectPage extends ContentTemplate {
   }
 
   /// Get All Task
-  _getMyTask() {
+  _getMyTask() async {
     var url = Comm_Params.URL_PROJECT_MY
         .replaceAll(Comm_Params.PROJECT_ID, pid)
         .replaceAll(Comm_Params.USER_ID, uid);
     print(url);
-    ScpHttpClient.get(
+    await ScpHttpClient.get(
       url,
       onSuccess: (json, message) {
         Get.find<ProjectController>().clear();

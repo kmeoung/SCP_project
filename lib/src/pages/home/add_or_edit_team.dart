@@ -11,12 +11,13 @@ import 'package:scp/src/pages/template/contents_template.dart';
 
 class AddOrEditTeam extends ContentTemplate {
   final String uid;
+  final String? tid;
 
-  AddOrEditTeam({required this.uid, Key? key}) : super(uid, key: key);
+  AddOrEditTeam({required this.uid, this.tid, Key? key}) : super(uid, key: key);
   bool isEdit = false;
   @override
   List<Widget> customDetail(BuildContext context) {
-    isEdit = Get.parameters[AllRoutes.TEAMID] != null;
+    isEdit = tid != null;
 
     return [
       ContentTitle(

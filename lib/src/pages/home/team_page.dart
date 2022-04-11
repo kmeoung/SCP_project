@@ -40,12 +40,12 @@ class TeamPage extends ContentTemplate {
         mainAxisSpacing: 5,
       ),
       itemBuilder: (context, index) {
-        return _projectCard('Team $index');
+        return _teamCard('Team $index');
       },
     );
   }
 
-  Widget _projectCard(String title) {
+  Widget _teamCard(String title) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       elevation: 5.0,
@@ -81,7 +81,11 @@ class TeamPage extends ContentTemplate {
                     splashRadius: 20,
                     iconSize: 30,
                     onPressed: () {
-                      Get.to(TeamPage(uid: uid));
+                      // todo : tid 추가 필요
+                      Get.to(AddOrEditTeam(
+                        uid: uid,
+                        tid: '',
+                      ));
                     },
                     padding: EdgeInsets.zero,
                     icon: const Icon(
@@ -101,15 +105,15 @@ class TeamPage extends ContentTemplate {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Expanded(
-                    child: _taskCard(
+                    child: _memberCard(
                         title: 'Team Member', color: CustomColors.deepPurple),
                   ),
                   Expanded(
-                    child: _taskCard(
+                    child: _memberCard(
                         title: 'Team Member', color: CustomColors.deepPurple),
                   ),
                   Expanded(
-                    child: _taskCard(
+                    child: _memberCard(
                         title: 'Team Member', color: CustomColors.deepPurple),
                   ),
                 ],
@@ -121,7 +125,7 @@ class TeamPage extends ContentTemplate {
     );
   }
 
-  Widget _taskCard({required String title, required Color color}) {
+  Widget _memberCard({required String title, required Color color}) {
     return Card(
       elevation: 5.0,
       color: color.withOpacity(0.7),
